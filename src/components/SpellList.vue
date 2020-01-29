@@ -1,101 +1,81 @@
 <template>
-      <ul style="margin-top: 20px">
-          
-          <input type="text" :value="text" @input="e => text = e.target.value" @keyup.enter="hideKeyboard" style="position: fixed; display: block; width: 100%; top: 0;"/>
-          <li v-for="spell in spellList" :key="spell._id" >
-              <h5>{{spell.name}}</h5>
+  <div>
+    <input
+      type="text"
+      :value="text"
+      v-debounce:100ms="setText"
+      :debounce-events="['input']"
+      @keyup.enter="hideKeyboard"
+      placeholder="Type to search"
+    />
+    <span class="clear" @click="clearText">x</span>
+    <br />
 
-              <div>
-                <span>Casting Time: </span> 
-                <span>{{spell.casting_time}}</span>
-              </div>
-      
-              <div>
-                <span>Range:</span> 
-                <span>{{spell.range}}</span>
-              </div>
+    {{spellList.length}} {{spellList.length === 1 ? "Spell" : "Spells"}}
+    <hr>
 
-              <div>
-                <span>Duration: </span> 
-                <span>{{spell.duration}}</span>
-              </div>
-
-              <div>
-                <span>Classes: </span> 
-                <span v-for="(cls, i) in spell.classes" :key="cls.name">
-                    <span v-if="i > 0 && i % 2 === 1">, </span>{{cls.name}}
-                </span>
-              </div>
-
-              <div v-for="paragraph in spell.desc" :key="paragraph">
-                <p>{{paragraph}}</p>
-              </div>
-
-              <span v-if="spell.higher_level">At higher levels</span>
-              <div v-for="paragraph in spell.higher_level" :key="paragraph">
-                <p>{{paragraph}}</p>
-              </div>
-          </li>
-      </ul>
+    <SpellCard v-for="spell in spellList" :key="spell._id" :spell="spell" />
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue,  } from 'vue-property-decorator';
+import { Component, Vue } from "vue-property-decorator";
 import { Spell } from "../models/spell";
-import spells from "../data/spells.json"
+import spells from "../data/spells.json";
+import SpellCard from "./SpellCard.vue";
 
 @Component({
   components: {
+    SpellCard
   }
 })
 export default class SpellList extends Vue {
-    spells: Array<Spell> = spells
-    text: string | null = null
+  spells: Array<Spell> = spells;
+  text: string | null = null;
 
-    get spellList() : Array<Spell> {
-        if(this.text === null) return this.spells
-        return this.spells.filter((spell) => spell.name.toLowerCase().includes(this.text!))
-    }
+  setText(value: string) {
+    this.text = value;
+  }
 
-    hideKeyboard() {
-        (document.activeElement as HTMLElement).blur();
-    }
+  clearText() {
+    this.text = null
+  }
+
+  get spellList(): Array<Spell> {
+    if (this.text === null) return this.spells;
+    return this.spells.filter(spell =>
+      spell.name.toLowerCase().includes(this.text!)
+    );
+  }
+
+  hideKeyboard() {
+    (document.activeElement as HTMLElement).blur();
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+div {
+  font-family: "Libre Baskerville", serif;
+  margin: 0;
+  padding: 0;
+}
 
-  ul {
-      margin: 0;
-      padding: 0;
-      list-style-type: none;
-      font-family: 'Libre Baskerville', serif;
-      li {
-              padding: 0.5rem;
-              margin-bottom: 0.75rem;
-      }
-  }
+.header {
+  position: fixed;
+}
 
+input {
+  font-family: "Libre Baskerville", serif;
+  font-size: 1.4rem;
+  padding: 0.2em;
+  text-align: center;
+  margin-bottom: 5px;
+}
 
-  h5 {
-    font-family: 'Libre Baskerville', serif;
-    color: #58170D;
-    font-size: 1.5rem;
-    font-weight: bolder;
-    font-variant: small-caps;
-    text-transform: capitalize;
-    margin: -10px 0px -5px 0px;
-    text-align: left;
-  }
-
-  p {
-      text-align: left;
-  }
-
-  div {
-      text-align: left;
-      span:first-child {
-          font-weight: bold;
-      }
-  }
+.clear {
+  font-size: 1.5rem;
+  margin: 10px;
+  cursor: pointer;
+}
 </style>
