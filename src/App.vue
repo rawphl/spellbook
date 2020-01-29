@@ -1,29 +1,39 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+    <div id="app">
+        <h3>Dungeons and Dragons: Spellbook</h3>
+        <SpellList/>
+    </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import SpellList from "./components/SpellList.vue";
 
 @Component({
   components: {
-    HelloWorld,
-  },
+      SpellList
+  }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+
+}
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap');
+
+html {
+    background-image: url("assets/spell_background.png");
+    background-size: cover;
+}
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Libre Baskerville', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  max-width: 960px;
+  margin: 0 auto;
 }
 </style>
