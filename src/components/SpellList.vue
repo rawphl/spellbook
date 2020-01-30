@@ -1,18 +1,22 @@
 <template>
   <div>
-    <input
-      type="text"
-      :value="text"
-      v-debounce:100ms="setText"
-      :debounce-events="['input']"
-      @keyup.enter="hideKeyboard"
-      placeholder="Type to search"
-    />
-    <span class="clear" @click="clearText">x</span>
-    <br />
+    <div class="spell-search">
+      <input
+        type="text"
+        :value="text"
+        v-debounce:100ms="setText"
+        :debounce-events="['input']"
+        @keyup.enter="hideKeyboard"
+        placeholder="Type to search"
+      />
+      <span class="clear" @click="clearText">x</span>
+    </div>
 
-    {{spellList.length}} {{spellList.length === 1 ? "Spell" : "Spells"}}
-    <hr>
+    <div class="clear-both"></div>
+      
+    <div class="spell-counter">
+      {{spellList.length}} {{spellList.length === 1 ? "Spell" : "Spells"}}
+     </div>
 
     <SpellCard v-for="spell in spellList" :key="spell._id" :spell="spell" />
   </div>
@@ -61,21 +65,46 @@ div {
   padding: 0;
 }
 
+hr { 
+   color: #58170d;
+}
+
 .header {
   position: fixed;
 }
 
 input {
   font-family: "Libre Baskerville", serif;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   padding: 0.2em;
   text-align: center;
   margin-bottom: 5px;
 }
 
+@media only screen and (min-width: 960px) {
+  input {
+    width: 100&;
+  } 
+}
+
+.spell-search {
+  margin-bottom: 20px;
+  min-height: 30px;
+  margin: 0 auto;
+  width: 300px;
+}
+
+.spell-counter {
+  margin-bottom: 10px;
+}
+
+.clear-both {
+  clear: both;
+}
+
 .clear {
-  font-size: 1.5rem;
-  margin: 10px;
+  font-size: 1.7rem;
   cursor: pointer;
+  margin-left: 10px;
 }
 </style>

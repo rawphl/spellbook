@@ -32,7 +32,12 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  max-width: 960px;
-  margin: 0 auto;
+}
+
+@media only screen and (min-width: 960px) {
+  #app {
+    max-width: 960px;
+    margin: 0 auto;
+  } 
 }
 </style>

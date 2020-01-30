@@ -25,13 +25,13 @@
       <span>{{getClassList(spell.classes)}}</span>
     </div>
 
-    <div v-for="paragraph in spell.desc" :key="paragraph">
+    <div v-for="(paragraph, i) in spell.desc" :key="i">
       <p>{{paragraph}}</p>
     </div>
 
     <div>
       <span class="bold" v-if="spell.higher_level">At higher levels</span>
-      <p class="inline" v-for="paragraph in spell.higher_level">{{paragraph}}</p>
+      <p class="inline" v-for="(paragraph, i) in spell.higher_level" :key="i">{{paragraph}}</p>
     </div>
   </div>
 </template>
