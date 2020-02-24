@@ -48,7 +48,7 @@ export default class SpellList extends Vue {
   get spellList(): Array<Spell> {
     if (this.text === null) return this.spells;
     return this.spells.filter(spell =>
-      spell.name.toLowerCase().includes(this.text!)
+      spell.name.toLowerCase().includes(this.text!.toLowerCase())
     );
   }
 
